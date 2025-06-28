@@ -1,21 +1,21 @@
-const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = require('../config');
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = require("../config");
 
 const authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'No autorizado' });
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "No autorizado" });
   }
 
-  const token = authHeader.split(' ')[1];
+  const token = authHeader.split(" ")[1];
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded; // información del usuario autenticado
+    req.user = decoded; //información del usuario autenticado
     next();
   } catch (error) {
-    return res.status(401).json({ message: 'Token inválido' });
+    return res.status(401).json({ message: "Token inválido" });
   }
 };
 
